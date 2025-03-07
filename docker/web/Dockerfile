@@ -23,6 +23,7 @@ FROM python:3.12.2-alpine AS production
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
+    LOGS_DIR=/var/logs \
     APP_HOME=/usr/src/web
 
 WORKDIR $APP_HOME
@@ -40,9 +41,9 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 RUN chown -R $USER:$USER $APP_HOME
 
-RUN mkdir -p /usr/src/logs
+RUN mkdir -p $LOGS_DIR
 
-RUN chown -R $USER:$USER /usr/src/logs
+RUN chown -R $USER:$USER $LOGS_DIR
 
 EXPOSE 8000
 

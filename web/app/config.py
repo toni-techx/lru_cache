@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,7 +13,12 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
 
 
-settings = Settings()
+@lru_cache
+def get_settings():
+    return Settings()
+
+
+settings = get_settings()
 
 LOG_CONFIG = {
     "version": 1,
@@ -42,7 +49,7 @@ LOG_CONFIG = {
         "file": {
             "class": "logging.FileHandler",
             "formatter": "standard",
-            "filename": "../logs/app.log",
+            "filename": "/var/logs/app.log",
             "mode": "a",
             "level": "DEBUG",
         },
