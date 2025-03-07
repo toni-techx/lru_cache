@@ -41,7 +41,7 @@ class LRUCache:
             else:
                 if len(self._cache) >= self.capacity:
                     self._cache.popitem(last=False)
-                self._cache[key] = {"value": value, "ttl": ttl if ttl else None}
+                self._cache[key] = {"value": value, "ttl": time.time() + ttl if ttl else None}
 
             self._cache.move_to_end(key)
 

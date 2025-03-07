@@ -1,3 +1,5 @@
+import time
+
 from fastapi.testclient import TestClient
 
 from app.cache import LRUCache
@@ -66,3 +68,19 @@ class TestCache:
         response = client.delete("/api/v1/cache/non_existent_key")
         assert response.status_code == 404
         assert response.json() == {"detail": "Key not found"}
+
+    def test_remove_expired_items(self, client: TestClient, setup_cache_with_items_and_ttl: LRUCache, keys_and_values):
+        for key in keys_and_values:
+            response = client.get(f"/api/v1/cache/{key}")
+            assert response.status_code == 200
+            assert response.json() == {"value": keys_and_values[key]}
+        time.sleep(1)
+        for key in keys_and_values:
+            response = client.get(f"/api/v1/cache/{key}")
+            assert response.status_code == 404
+
+
+class TestCacheAPIValidation:
+    def test_cache_item_invalid_ttl(self, client: TestClient):
+        response = client.put("/api/v1/cache/key1", json={"value": "value1", "ttl": 0})
+        assert response.status_code == 422

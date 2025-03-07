@@ -30,7 +30,7 @@ def setup_cache_with_items(keys_and_values: Dict[str, str]) -> LRUCache:
 
 
 @pytest.fixture
-def cache_with_data() -> Generator[LRUCache, None, None]:
-    cache.set("test_key", "test_value", 10)
-    yield cache
-    cache.delete("test_key")
+def setup_cache_with_items_and_ttl(keys_and_values: Dict[str, str], ttl: int = 1) -> LRUCache:
+    for key, value in keys_and_values.items():
+        cache.set(key, value, ttl)
+    return cache

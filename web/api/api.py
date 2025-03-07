@@ -2,19 +2,19 @@ from fastapi import APIRouter, HTTPException, Response, status
 
 from app.core import cache
 from app.middleware import logger
-from app.models import CacheItem
+from app.models import CacheItem, CacheStats, CacheValue
 
 router = APIRouter(prefix="/api/v1")
 
 
-@router.get("/cache/stats")
+@router.get("/cache/stats", response_model=CacheStats)
 async def get_stats():
     stats = cache.stats()
     logger.info("Cache stats requested: %s", stats)
     return stats
 
 
-@router.get("/cache/{key}")
+@router.get("/cache/{key}", response_model=CacheValue)
 async def get_cache(key: str):
     value = cache.get(key)
     if value is None:

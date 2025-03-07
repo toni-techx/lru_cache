@@ -12,3 +12,7 @@ class CacheStats(BaseModel):
     size: int
     capacity: int
     items: list[str]
+
+
+class CacheValue(BaseModel):
+    value: str
