@@ -2,7 +2,7 @@
 name = "lru-cache-api"
 version = "0.1.0"
 description = "REST API for LRU Cache with TTL support"
-authors = ["Anton Zharkov <19antoni88@gmail.com>"]
+authors = ["Anton Zharkov"]
 license = "MIT"
 readme = "README.md"
 
