@@ -9,8 +9,6 @@ app = FastAPI()
 app.middleware("http")(log_middleware)
 app.include_router(api_router)
 
-# initialize_cache()
-
 logger.info("Application startup with host: %s, port: %s", settings.app_host, settings.app_port)
 
 if __name__ == "__main__":
